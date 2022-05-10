@@ -71,9 +71,9 @@ func TestResult(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			op := tt.fields.op
 			assert.Equalf(t, tt.want, op.Result(tt.args.left, tt.args.right), "result for %s", op)
-			// if got := op.Result(tt.args.left, tt.args.right); got != tt.want {
-			// 	t.Errorf("Add.Result() = %v, want %v", got, tt.want)
-			// }
+			if got := op.Result(tt.args.left, tt.args.right); got != tt.want {
+				t.Errorf("Add.Result() = %v, want %v", got, tt.want)
+			}
 		})
 	}
 }

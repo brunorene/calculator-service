@@ -1,6 +1,17 @@
-GOARCH ?= amd64
 SHELL := /bin/bash
 .SHELLFLAGS = -euo pipefail -c
+.DELETE_ON_ERROR:
+.ONESHELL:
+
+GOARCH ?= amd64
+
+os := $(shell uname)
+ifeq ("$(os)", "Linux")
+	GOOS = linux
+else ifeq ("$(os)", "Darwin")
+	GOOS = darwin
+endif
+
 gciParams := --NoInlineComments --NoPrefixComments --Section Standard --Section Default --Section "Prefix(github.com/sky-uk/$(team)/vault/$(projectName))" .
 
 .PHONY: setup
@@ -17,8 +28,17 @@ setup:
 clean:
 	@rm -rf build
 
+.PHONY: build-image
+build-image:
+	@docker build -t local/service/calculator .
+
+.PHONY: run-service
+run-service: build-image
+	@docker stop calculator && docker rm calculator || true
+	@docker run -d -p 8090:8090 --name calculator local/service/calculator
+
 .PHONY: check
-check: check-system-dependencies vet lint check-format
+check: check-system-dependencies vet lint check-format test
 
 .PHONY: check-system-dependencies
 check-system-dependencies:
@@ -50,8 +70,17 @@ format:
 	@gofumpt -w main.go operator/
 	@sync
 
-build/bin/calculator: check
-	@go build -o build/bin/calculator
+build/calculator-service: check
+	@CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o build/calculator-service
+
+
+.PHONY: test
+test:
+	@richgo test -race -cover ./...
 
 .PHONY: build
-build: build/bin/calculator
+build: build/calculator-service
+
+.PHONY: nft
+nft: run-service
+	@richgo test -v nft_test.go 

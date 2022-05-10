@@ -1,5 +1,0 @@
-package nft
-
-func main() {
-	
-}

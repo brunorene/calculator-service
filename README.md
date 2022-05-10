@@ -13,11 +13,16 @@
 1. New package operator
 1. Create Add, Subtract, Multiply, Divide with interface Operator - Notice uppercase to be accessible on main.go
 1. Function receiver - like an extension method
+1. `go get github.com/stretchr/testify`
 1. Generate test for Add, Subtract
 1. Enable code coverage Ctrl+Shift+P coverage
 1. Create runServer - talk about http server
 1. Create handler - split path
 1. Show https://goplay.tools/ - test split there
 1. Handler talk about json, struct tags, wrapped errors, nolint
-1. TODO NFTs
+1. Dockerfile - use multi-stage, base image scratch - binary only
+1. NFTs
+1. `go get github.com/tsenart/vegeta/v12`
+1. create nft_test.go
+
 

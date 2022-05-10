@@ -36,6 +36,8 @@ func main() {
 		log.Fatalf("setup logger: %v", err)
 	}
 
+	zap.L().Info("Running server")
+
 	if err := runServer(); err != nil {
 		zap.S().Errorf("run server: %v", err)
 	}

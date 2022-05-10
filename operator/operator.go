@@ -31,5 +31,5 @@ func (op *Multiply) Result(left, right int) int {
 type Divide struct{}
 
 func (op *Divide) Result(left, right int) int {
-	return left + right
+	return left / right
 }
