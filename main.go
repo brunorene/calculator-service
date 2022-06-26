@@ -25,12 +25,16 @@ var (
 func main() {
 	args := os.Args
 
-	flags := flag.NewFlagSet(args[0], flag.ContinueOnError)
+	flags := flag.NewFlagSet(args[0], flag.ExitOnError)
 
 	var logLevel string
 
 	flags.StringVar(&logLevel, "log-level", "info",
 		"Log level used for logging. Should be one of: debug, info, warn, error.")
+
+	if err := flags.Parse(args[1:]); err != nil {
+		log.Fatalf("error parsing params: %v", err)
+	}
 
 	if err := setupLogger(logLevel); err != nil {
 		log.Fatalf("setup logger: %v", err)
@@ -139,15 +143,16 @@ func setupLogger(levelName string) error {
 	config.EncoderConfig.TimeKey = "@timestamp"
 	config.EncoderConfig.EncodeTime = zapcore.RFC3339NanoTimeEncoder
 
-	log, err := config.Build()
+	logger, err := config.Build()
 	if err != nil {
 		return fmt.Errorf("config build: %w: %v", ErrLogger, err)
 	}
 
 	// nolint:errcheck // deferred and not important if fails
-	defer log.Sync() // flushes buffer, if any
+	//goland:noinspection GoUnhandledErrorResult
+	defer logger.Sync() // flushes buffer, if any
 
-	zap.ReplaceGlobals(log)
+	zap.ReplaceGlobals(logger)
 
 	return nil
 }
