@@ -18,7 +18,6 @@ gciParams := --NoInlineComments --NoPrefixComments --Section Standard --Section 
 setup:
 	@echo "== setup"
 	@go install github.com/daixiang0/gci@latest
-	@go install golang.org/x/tools/cmd/goimports@latest
 	@go install mvdan.cc/gofumpt@latest
 	@go install github.com/kyoh86/richgo@latest
 	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
@@ -73,13 +72,12 @@ format:
 build/calculator-service: check
 	@CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o build/calculator-service
 
+.PHONY: build
+build: build/calculator-service
 
 .PHONY: test
 test:
-	@richgo test -race -cover ./...
-
-.PHONY: build
-build: build/calculator-service
+	@richgo test -v -race -cover ./...
 
 .PHONY: nft
 nft: run-service

@@ -40,7 +40,7 @@ func main() {
 		log.Fatalf("setup logger: %v", err)
 	}
 
-	zap.L().Info("Running server")
+	zap.S().Infof("Running server with %s log level", logLevel)
 
 	if err := runServer(); err != nil {
 		zap.S().Errorf("run server: %v", err)
@@ -68,7 +68,7 @@ type response struct {
 }
 
 func values(parts []string) (left, right int, err error) {
-	if len(parts) < 4 {
+	if len(parts) < 3 {
 		return 0, 0, fmt.Errorf("%w: %v", ErrMissing, parts)
 	}
 

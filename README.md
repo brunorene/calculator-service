@@ -15,7 +15,6 @@
 1. Function receiver - like an extension method
 1. `go get github.com/stretchr/testify`
 1. Generate test for Add, Subtract
-1. Enable code coverage Ctrl+Shift+P coverage
 1. Create runServer - talk about http server
 1. Create handler - split path
 1. Show https://goplay.tools/ - test split there

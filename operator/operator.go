@@ -1,11 +1,5 @@
 package operator
 
-import (
-	"errors"
-)
-
-var ErrUnknownOperation = errors.New("unknown operator")
-
 type Operator interface {
 	Result(left, right int) int
 }
