@@ -4,12 +4,13 @@
 
 1. `go mod init github.com/brunorene/calculator-service`
 1. Create Makefile with: setup, clean, vet, lint, check-system-deps, check-format, format, build
+1. go vet heuristics to find conceptual errors on code
 1. `go get go.uber.org/zap`
 1. Setup logger
 1. Create Infof log - highlight `f` convention - f stands for formatted
-1. go vet heuristics to find conceptual errors on code
 1. defer
 1. Error handling, wrap errors
+1. TYPE SYSTEM - defaults, copy on pass by value even on fors
 1. New package operator
 1. Create Add, Subtract, Multiply, Divide with interface Operator - Notice uppercase to be accessible on main.go
 1. Function receiver - like an extension method
