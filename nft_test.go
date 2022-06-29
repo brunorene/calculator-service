@@ -44,10 +44,10 @@ func TestEndpoints(t *testing.T) {
 	attacker := vegeta.NewAttacker()
 
 	var metrics vegeta.Metrics
+	defer metrics.Close()
 	for res := range attacker.Attack(targeter, rate, duration, "Big Bang!") {
 		metrics.Add(res)
 	}
-	defer metrics.Close()
 
 	t.Logf("Metrics: %#v", metrics)
 
